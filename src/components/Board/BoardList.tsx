@@ -1,9 +1,9 @@
 import React from 'react';
-import { Box, Flex, IconButton, Text } from '@chakra-ui/react';
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { Droppable, DroppableProvided, DroppableStateSnapshot } from 'react-beautiful-dnd';
-import { FiPlusCircle } from 'react-icons/fi';
 import BoardCard from './BoardCard';
 import { CardShape } from '../../types/data';
+import BoardCreatePopover from './BoardCreatePopover';
 
 interface BoardListProps {
   droppableId: string;
@@ -31,14 +31,9 @@ const BoardList = ({
         mb="4"
       >
         <Text color="white">{title} - {data.length}</Text>
-        <IconButton
-          background="transparent"
-          aria-label="Add card"
-          icon={<FiPlusCircle size="24" color="white" />}
-          minW="0"
-          h="0"
-        />
+        <BoardCreatePopover />
       </Flex>
+
       <Droppable droppableId={droppableId}>
         {(provided: DroppableProvided, snapshot: DroppableStateSnapshot) => (
           <Box
@@ -49,18 +44,6 @@ const BoardList = ({
             minHeight="400px"
             maxHeight="60vh"
             overflowY="auto"
-            css={{
-              '&::-webkit-scrollbar': {
-                width: 12,
-              },
-              '&::-webkit-scrollbar-track': {
-                borderRadius: 10,
-              },
-              '::-webkit-scrollbar-thumb': {
-                borderRadius: 10,
-                background: 'primary.100',
-              },
-            }}
           >
             {data.map((item, idx) => (
               <BoardCard

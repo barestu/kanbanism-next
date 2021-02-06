@@ -37,7 +37,7 @@ const Board = () => {
     },
   ]);
 
-  const getList = (id: string) => {
+  const getListData = (id: string) => {
     return data.find(list => list.id.toString() === id).data;
   }
 
@@ -48,7 +48,7 @@ const Board = () => {
 
     if (source.droppableId === destination.droppableId) {
       const results = reorder(
-        getList(source.droppableId),
+        getListData(source.droppableId),
         source.index,
         destination.index,
       );
@@ -64,8 +64,8 @@ const Board = () => {
       }));
     } else {
       const results = move(
-        getList(source.droppableId),
-        getList(destination.droppableId),
+        getListData(source.droppableId),
+        getListData(destination.droppableId),
         source,
         destination,
       );
