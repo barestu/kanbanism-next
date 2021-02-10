@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box, HStack, Text } from '@chakra-ui/react';
 import { DragDropContext, DropResult, resetServerContext } from 'react-beautiful-dnd';
 import BoardList from '../../components/Board/BoardList';
@@ -7,6 +7,7 @@ import { reorder, move } from '../../utils/boards';
 resetServerContext();
 
 const Board = () => {
+  const [componentLoaded, setComponentLoaded] = useState(false);
   const [data, setData] = useState([
     {
       id: 1,
@@ -36,6 +37,10 @@ const Board = () => {
       data: [],
     },
   ]);
+
+  useEffect(() => {
+    setComponentLoaded(true);
+  }, []);
 
   const getListData = (id: string) => {
     return data.find(list => list.id.toString() === id).data;
@@ -100,18 +105,20 @@ const Board = () => {
         </Text>
       </Box>
 
-      <HStack spacing="">
-        <DragDropContext onDragEnd={onDragEnd}>
-          {data.map(list => (
-            <BoardList
-              key={list.id}
-              droppableId={list.id.toString()}
-              title={list.name}
-              titleBgColor={list.bgColor}
-              data={list.data}
-            />
-          ))}
-        </DragDropContext>
+      <HStack>
+        {componentLoaded ? (
+          <DragDropContext onDragEnd={onDragEnd}>
+            {data.map(list => (
+              <BoardList
+                key={list.id}
+                droppableId={list.id.toString()}
+                title={list.name}
+                titleBgColor={list.bgColor}
+                data={list.data}
+              />
+            ))}
+          </DragDropContext>
+        ) : null}
       </HStack>
     </Box>
   );
